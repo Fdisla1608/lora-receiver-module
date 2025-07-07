@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VSoftware Settings Page v1.0.1</title>
+    <link rel="stylesheet" href="styles/network.css" />
+    <script defer src="scripts/network.js"></script>
+  </head>
+
+  <body>
+    <div class="loading-screen" hidden>
+      <div class="loader"></div>
+    </div>
+
+    <div class="container">
+      <header class="header">
+        <div class="header-title">SoiLion System</div>
+        <div class="header-title-2">Web Configuration</div>
+        <br />
+        <div class="header-label">%ID_MODULE%</div>
+      </header>
+
+      <section class="red-section">
+        <div class="section-label">Conexión a Red</div>
+        <div class="red-section-container">
+          <div class="input-group">
+            <label for="ssid-text" class="group-label">SSID</label>
+            <div class="input-with-button">
+              <select id="ssid-text" class="red-input-field"></select>
+              <button class="icon-button" onclick="ScanWifi()">
+                🔍
+              </button>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="password-text" class="group-label">Contraseña</label>
+            <div class="input-with-button">
+              <input type="password" id="password-text" class="red-input-field" />
+              <button class="icon-button" id="show-pwd-button" onclick="showPassword()">👁️</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="red-avanzado-section">
+        <div class="section-label">
+          <label for="advance-checkbox">Red Avanzado</label>
+          <input type="checkbox" id="advance-checkbox" class="local-checkbox"
+                 onclick="toggleAdvancedInputs()" />
+        </div>
+        <div class="red-avanzado-section-container">
+          <div class="red-avanzado-section-group-1">
+            <div class="input-group">
+              <label for="ip-text" class="group-label">IP4:</label>
+              <input type="text" id="ip-text" class="input-field" placeholder="10.0.0.1" />
+            </div>
+            <div class="input-group">
+              <label for="subnet-text" class="group-label">SUB:</label>
+              <input type="text" id="subnet-text" class="input-field" placeholder="255.255.255.0" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="gateway-text" class="group-label">GTW:</label>
+            <input type="text" id="gateway-text" class="input-field" placeholder="10.0.0.1" />
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <button class="proceed-button" onclick="connectNetwork()">Siguiente</button>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VSoftware Settings Page v1.0.1</title>
+    <link rel="stylesheet" href="styles/network.css" />
+    <script defer src="scripts/configure.js"></script>
+  </head>
+
+  <body>
+    <div class="loading-screen">
+      <div class="loader"></div>
+    </div>
+
+    <div class="container">
+      <header class="header">
+        <div class="header-title">SoiLion System</div>
+        <div class="header-title-2">Web Configuration</div>
+        <br />
+        <div class="header-label">%ID_MODULE%</div>
+      </header>
+
+      <section class="red-section">
+        <div class="section-label">Board Type</div>
+        <div class="red-section-container">
+          <div class="input-with-button">
+            <select
+              name="boardType"
+              id="board-type"
+              class="red-input-field"
+              aria-label="Tipo de servidor"
+            >
+              <option value="gateway">GateWay</option>
+              <option value="station">Station</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <button class="proceed-button" onclick="Configure()">Configurar</button>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VSoftware Settings Page v1.0.1</title>
+    <link rel="stylesheet" href="styles/success.css" />
+    <script>
+      async function restart() {
+        const response = await fetch("/restart", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = response.json();
+      }
+
+      async function update() {
+        const response = await fetch("/update", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = response.json();
+      }
+    </script>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="header-title">SoiLion System</div>
+      <div class="header-title-2">Web Configuration</div>
+      <br />
+      <div class="header-label">%ID_MODULE%</div>
+    </header>
+    <section>
+      <br />
+      <div class="logo-section" style="background-color: #22bb33">
+        <span class="logo">&#10003;</span>
+      </div>
+    </section>
+    <footer>
+      <button class="restart-button" onclick="restart()">Reiniciar</button>
+    </footer>
+  </body>
+</html>

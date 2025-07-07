@@ -1,33 +1,8 @@
-#pragma once
+#include "ESPUtils.h"
 
-#ifndef ESPUtils_H
-#define ESPUtils_H
+ESPUtils::ESPUtils() {}
 
-#include <ArduinoJson.h>
-#include <HTTPClient.h>
-#include <WiFi.h>
-
-class ESPUtils
-{
-private:
-    /* data */
-public:
-    ESPUtils(/* args */);
-    ~ESPUtils();
-
-    static const char *getDeviceId();
-
-    const char *getModuleId();
-    String getDateTime();
-};
-
-ESPUtils::ESPUtils(/* args */)
-{
-}
-
-ESPUtils::~ESPUtils()
-{
-}
+ESPUtils::~ESPUtils() {}
 
 const char *ESPUtils::getDeviceId()
 {
@@ -39,7 +14,7 @@ const char *ESPUtils::getDeviceId()
 
 const char *ESPUtils::getModuleId()
 {
-    return "N/A"; // Placeholder for module ID, replace with actual logic if needed
+    return "N/A"; // Placeholder for module ID
 }
 
 String ESPUtils::getDateTime()
@@ -47,15 +22,14 @@ String ESPUtils::getDateTime()
     if (WiFi.status() == WL_CONNECTED)
     {
         HTTPClient http;
-
         http.begin("https://api.bitget.com/api/v2/public/time");
         int httpResponseCode = http.GET();
+
         if (httpResponseCode > 0)
         {
             String payload = http.getString();
             if (httpResponseCode == 200)
             {
-                // Parse the JSON response
                 JsonDocument doc;
                 DeserializationError error = deserializeJson(doc, payload);
                 if (error)
@@ -65,9 +39,7 @@ String ESPUtils::getDateTime()
                     return String();
                 }
 
-                // Extract the date and time
-                String dateTime = doc["data"]["serverTime"].as<String>();
-                return dateTime;
+                return doc["data"]["serverTime"].as<String>();
             }
             else
             {
@@ -79,6 +51,7 @@ String ESPUtils::getDateTime()
             Serial.print("Error on sending GET: ");
             Serial.println(httpResponseCode);
         }
+
         http.end();
     }
     else
@@ -88,5 +61,3 @@ String ESPUtils::getDateTime()
 
     return String();
 }
-
-#endif

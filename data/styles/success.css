@@ -1,0 +1,196 @@
+/* @font-face {
+  font-family: "Iconsolata";
+  src: url("./Inconsolata-VariableFont_wdth\,wght.ttf");
+} */
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  align-items: center;
+  padding-right: 10px;
+  height: 100vh;
+  margin: 0;
+  gap: 25px;
+}
+
+@media (min-width: 480px) {
+  header {
+    inline-size: 480px;
+  }
+  section {
+    inline-size: 480px;
+  }
+  footer {
+    inline-size: 480px;
+  }
+}
+
+header{
+  width: 100%;
+}
+
+.header-title {
+  width: 100%;
+  color: RGB(25, 135, 84);;
+  text-align: center;
+  font-weight: bold;
+  font-size: 4rem;
+}
+
+.header-title-2 {
+  color: #f7931e;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.64rem;
+}
+
+.header-label {
+  display: flex;
+  background-color: RGB(25, 135, 84);;
+  color: white;
+  height: 47px;
+  font-size: 2rem;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.logo-section {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.logo {
+  font-size: 10rem;
+  color: white;
+  font-weight: bold;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 15px;
+}
+
+.red-input-field {
+  flex: 1;
+  font-size: 1.45rem;
+}
+
+.footer-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.counter-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.counter-text {
+  flex: 1;
+}
+
+.input-field {
+  width: 80%;
+  font-size: 1.25rem;
+}
+
+
+
+.restart-button {
+  width: 100%;
+  height: 66px;
+  border: none;
+  background-color: RGB(25, 135, 84);;
+  color: white;
+  border-radius: 3px;
+  font-size: 1.8rem;
+}
+
+
+.servidor-local-section-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #d9d9d9;
+  padding: 10px;
+  gap: 5px;
+}
+
+.section-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.local-checkbox {
+  width: 1.3rem;
+}
+
+.group-label {
+  font-size: 1.2rem;
+}
+
+.loading-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 5;
+  block-size: 100%;
+  inline-size: 100vw;
+  background-color: rgba(128, 128, 128, 0.534);
+}
+
+.loader {
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l11 2s infinite;
+}
+
+footer {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@keyframes l11 {
+  0% {
+    background: conic-gradient(#001177 0, #0000 0);
+  }
+  12.5% {
+    background: conic-gradient(#001177 45deg, #0000 46deg);
+  }
+  25% {
+    background: conic-gradient(#001177 90deg, #0000 91deg);
+  }
+  37.5% {
+    background: conic-gradient(#001177 135deg, #0000 136deg);
+  }
+  50% {
+    background: conic-gradient(#001177 180deg, #0000 181deg);
+  }
+  62.5% {
+    background: conic-gradient(#001177 225deg, #0000 226deg);
+  }
+  75% {
+    background: conic-gradient(#001177 270deg, #0000 271deg);
+  }
+  87.5% {
+    background: conic-gradient(#001177 315deg, #0000 316deg);
+  }
+  100% {
+    background: conic-gradient(#001177 360deg, #0000 360deg);
+  }
+}

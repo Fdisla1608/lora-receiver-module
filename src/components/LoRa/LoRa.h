@@ -4,7 +4,7 @@
 
 class Custom_LoRa
 {
-  private:
+private:
     uint8_t _ss;
     uint8_t _rst;
     uint8_t _dio0;
@@ -17,7 +17,7 @@ class Custom_LoRa
         callback(data, rssi);
     }
 
-  public:
+public:
     Custom_LoRa(uint8_t ss, uint8_t rst, uint8_t dio0);
     ~Custom_LoRa();
 
@@ -50,10 +50,8 @@ bool Custom_LoRa::begin(uint32_t frequency)
         Serial.println(".");
         delay(500);
     }
-
+    
     LoRa.setSyncWord(0xA5);
-    Serial.println("LoRa Initializing OK!");
-
     return true;
 }
 
