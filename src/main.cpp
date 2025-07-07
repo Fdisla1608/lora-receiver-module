@@ -14,6 +14,7 @@ void setup()
 {
     Serial.begin(115200);
     lcdDisplay.Initialize();
+    lcdDisplay.printScreen("Initializing...");
 
     customLoRa = new Custom_LoRa(ss, rst, dio0);
     customLoRa->onReceive(receivePayload);
