@@ -15,6 +15,7 @@
 #define rst 14
 #define dio0 2
 
-void receivePayload(const char *payload, int rssi);
+void receivePayload(MeshPacket packet);
 void MQTTCallback(char *topic, byte *payload, unsigned int length);
-String sendPayload();
+void PreparePayload(MeshPacket &packet);
+void InitializeConfiguration();

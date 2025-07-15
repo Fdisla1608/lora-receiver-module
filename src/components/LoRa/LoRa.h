@@ -1,90 +1,58 @@
 #include <Arduino.h>
 #include <LoRa.h>
+#include <cstdint>
 #include <functional>
+#include <unordered_set>
+#include <utility> // std::pair
+
+struct MeshPacket
+{
+    uint64_t id;
+    uint64_t nodeId;
+    uint64_t destinationId;
+    uint64_t routeTable[10];
+    uint8_t hopCount;
+    uint8_t temperature;
+    uint8_t humidity;
+    uint8_t soilMoisture;
+    double latitude;
+    double longitude;
+};
+
+struct PairHash
+{
+    std::size_t operator()(const std::pair<uint64_t, uint64_t> &p) const
+    {
+        return std::hash<uint64_t>()(p.first) ^ (std::hash<uint64_t>()(p.second) << 1);
+    }
+};
 
 class Custom_LoRa
 {
-private:
+  private:
     uint8_t _ss;
     uint8_t _rst;
     uint8_t _dio0;
 
     String LoRaData;
 
-    std::function<void(const char *, int rrsi)> callback;
-    void emit(const char *data, int rssi)
+    std::function<void(MeshPacket packet)> callback;
+    std::unordered_set<std::pair<uint64_t, uint64_t>, PairHash> receivedPackets;
+
+    void emit(MeshPacket packet)
     {
-        callback(data, rssi);
+        callback(packet);
     }
 
-public:
+  public:
     Custom_LoRa(uint8_t ss, uint8_t rst, uint8_t dio0);
     ~Custom_LoRa();
 
     bool begin(uint32_t frequency);
-    uint8_t sendPackage(uint8_t *data, uint8_t size);
-    void sendPayload(const char *payload);
-    void onReceive(std::function<void(const char *, int)> callback);
+    void onReceive(std::function<void(MeshPacket packet)> callback);
     void loop();
+
+    uint8_t transmitPacket(uint8_t *data, uint8_t size);
+    uint8_t retransmitPacket(MeshPacket packet);
+    bool hasSeen(const MeshPacket &packet);
 };
-
-Custom_LoRa::Custom_LoRa(uint8_t ss, uint8_t rst, uint8_t dio0) : _ss(ss), _rst(rst), _dio0(dio0)
-{
-}
-
-Custom_LoRa::~Custom_LoRa()
-{
-}
-
-bool Custom_LoRa::begin(uint32_t frequency)
-{
-    LoRa.setPins(_ss, _rst, _dio0); // setup LoRa transceiver module
-
-    uint32_t start = millis();
-    while (!LoRa.begin(frequency)) // 433E6 - Asia, 866E6 - Europe, 915E6 - North America
-    {
-        if (millis() - start > 10000)
-        {
-            return false;
-        }
-        Serial.println(".");
-        delay(500);
-    }
-    
-    LoRa.setSyncWord(0xA5);
-    return true;
-}
-
-uint8_t Custom_LoRa::sendPackage(uint8_t *data, uint8_t size)
-{
-    LoRa.beginPacket();
-    LoRa.write(data, size);
-    LoRa.endPacket();
-    return 0;
-}
-
-void Custom_LoRa::sendPayload(const char *payload)
-{
-    LoRa.beginPacket();
-    LoRa.print(payload);
-    LoRa.endPacket();
-}
-
-void Custom_LoRa::onReceive(std::function<void(const char *, int)> callback)
-{
-    this->callback = callback;
-}
-
-void Custom_LoRa::loop()
-{
-    int packetSize = LoRa.parsePacket(); // try to parse packet
-    if (packetSize)
-    {
-        while (LoRa.available()) // read packet
-        {
-            LoRaData += (char)LoRa.read();
-        }
-        emit(LoRaData.c_str(), LoRa.packetRssi());
-        LoRaData = "";
-    }
-}

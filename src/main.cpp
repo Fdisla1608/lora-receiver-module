@@ -31,9 +31,7 @@ void setup()
     if (moduleInfo.boardType.isEmpty() || moduleInfo.wifiSSID.isEmpty())
     {
         changeState(SystemState::ERROR_MODULE_NOT_CONFIGURED, &lcdDisplay);
-        Serial.println("Initializing module configuration...");
-        webConfigServer.begin(moduleInfo);
-        Serial.println("Module configuration initialized.");
+        InitializeConfiguration();
         while (1)
             ;
     }
@@ -46,6 +44,7 @@ void setup()
             if (millis() - currentTime > 10000)
             {
                 changeState(SystemState::ERROR_NETWORK_TIMEOUT, &lcdDisplay);
+                InitializeConfiguration();
                 return;
             }
         }
@@ -67,29 +66,32 @@ void setup()
 void loop()
 {
     customLoRa->loop();
+}
 
-    if (millis() - lastTime > 5000)
+void receivePayload(MeshPacket packet)
+{
+    if (packet.destinationId == 255)
     {
-        lastTime = millis();
-        String payload = sendPayload();
-        customLoRa->sendPayload(payload.c_str());
-        Serial.printf("Sending packet: %s\n", payload.c_str());
+        Serial.print("Mensaje recibido: ");
+        Serial.println(packet.id);
+        PreparePayload(packet);
+        return;
     }
 }
 
-void receivePayload(const char *payload, int rssi)
+void PreparePayload(MeshPacket &packet)
 {
-    Serial.printf("Received Package with RSSI %d: %s\n", rssi, payload);
-}
+    JsonDocument payload;
+    payload["id"] = packet.id;
+    payload["source"] = packet.nodeId;
+    payload["temperature"] = packet.temperature;
+    payload["humidity"] = packet.humidity;
+    payload["soilMoisture"] = packet.soilMoisture;
+    payload["latitude"] = packet.latitude;
+    payload["longitude"] = packet.longitude;
 
-String sendPayload()
-{
-    JsonDocument doc;
-    doc["id"] = moduleInfo.idModule;
-    doc["type"] = "test";
-    doc["data"] = "Hello World!";
-    doc["date"] = millis();
-    return doc.as<String>();
+    networkManager.MQTTPublish("gateway/payload", payload.as<String>().c_str());
+
 }
 
 void MQTTCallback(char *topic, byte *payload, unsigned int length)
@@ -102,3 +104,11 @@ void MQTTCallback(char *topic, byte *payload, unsigned int length)
 
     Serial.printf("Payload Receive: %s", payloadReceived.as<String>().c_str());
 }
+
+void InitializeConfiguration()
+{
+    Serial.println("Initializing module configuration...");
+    webConfigServer.begin(moduleInfo);
+    Serial.println("Module configuration initialized.");
+}
+

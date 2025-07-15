@@ -115,6 +115,7 @@ void NetworkManager::initializeMQTT(const char *clientId)
 
 void NetworkManager::initializeAP(const char *ssid, const char *password, IPAddress localIp, IPAddress gateway, IPAddress subnet)
 {
+    WiFi.disconnect();
     WiFi.mode(WIFI_AP_STA);
     WiFi.softAP(ssid, password);
     WiFi.softAPConfig(localIp, gateway, subnet);
