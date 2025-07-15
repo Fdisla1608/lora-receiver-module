@@ -33,7 +33,7 @@ class NetworkManager
 private:
     MQTT *mqtt;
     uint64_t currentTime{0};
-    const char *serverUrl = "broker.emqx.io";
+    const char *serverUrl = "swift-agro.ddns.net";
     const uint16_t serverPort = 3000;
     const uint16_t mqttPort = 1883;
 

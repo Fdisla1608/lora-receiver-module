@@ -90,8 +90,8 @@ void PreparePayload(MeshPacket &packet)
     payload["latitude"] = packet.latitude;
     payload["longitude"] = packet.longitude;
 
-    networkManager.MQTTPublish("gateway/payload", payload.as<String>().c_str());
-
+    networkManager.MQTTPublish(String("gateway/" + String(ESPUtils::getDeviceId())).c_str(),
+                               payload.as<String>().c_str());
 }
 
 void MQTTCallback(char *topic, byte *payload, unsigned int length)
@@ -111,4 +111,3 @@ void InitializeConfiguration()
     webConfigServer.begin(moduleInfo);
     Serial.println("Module configuration initialized.");
 }
-
